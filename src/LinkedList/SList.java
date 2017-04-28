@@ -16,9 +16,19 @@ public class SList {
 		size = 0;
 	}
 	
+	// Inserting item at nth position 
+	
+	// Inserting item at the front of a list
 	public void insertFront(Object item){
 		head = new SListNode(item, head);
 		size++;
 	}
-
+	
+	// Inserting item at the end of a list
+	public void deleteFront(){
+		if(head != null){
+			head = head.next;
+			size--; 
+		}
+	}
 }  
