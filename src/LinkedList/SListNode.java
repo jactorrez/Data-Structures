@@ -1,15 +1,15 @@
 package LinkedList;
 
-public class SListNode {
-	public int item;
-	public SListNode next;
+public class SListNode<T> {
+	public T item;
+	public SListNode<T> next;
 
-	public SListNode(int item, SListNode next){
+	public SListNode(T item, SListNode<T> next){
 		this.item = item;
 		this.next = next;
 	}
 	
-	public SListNode(int item){
+	public SListNode(T item){
 		this(item, null);
 	}
 }

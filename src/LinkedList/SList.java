@@ -1,4 +1,7 @@
 package LinkedList;
+
+import java.util.NoSuchElementException;
+
 /**
  * 
  * @author Javier
@@ -6,31 +9,31 @@ package LinkedList;
  *
  */
 
-public class SList {
+public class SList<T> {
 	
-	private SListNode head;
-	private SListNode tail;
+	private SListNode<T> head;
 	private int size; 
 	
 	public SList(){
 		head = null;
-		tail = null;
 		size = 0;
 	}
 	
-	public SList(SListNode firstNode){
-		head = firstNode;
-		tail = head;
+	public SList(T item){
+		head = new SListNode<T>(item);
 		size = 1;
 	}
-
-	private SListNode traverse(){
+	
+	/* ------ Utility Methods ------ */
+	
+	// Find last element in the list
+	private SListNode<T> traverse(){
 		
 		if(size == 0){
 			return null;
 		}
 		
-		SListNode tmp = head;
+		SListNode<T> tmp = head;
 		
 		while(tmp.next != null){
 			tmp = tmp.next;
@@ -38,74 +41,200 @@ public class SList {
 		
 		return tmp;
 	}
-	// Inserting item at nth position 
+	/* ------------------------ */
 	
-	public void addFirst(int item){
-		if(head == null){
-			head = new SListNode(item, null);
-			tail = head;
+	/*	
+	 * Get size of list
+	 */
+	public int getSize(){
+		return size;
+	}
+	
+	/*
+	 * Check if list is empty
+	 */
+	public boolean isEmpty(){
+		return size == 0;
+	}
+	
+	/* 
+	 *  Add node 
+	 */
+	public void add(T item){
+		
+		// List is empty
+		if(size == 0)
+			addFirst(item);
+		
+		SListNode<T> lastNode = traverse();
+		
+		lastNode.next = new SListNode<T>(item);
+		size++;
+	}
+	
+	/*
+	 * Remove first node
+	 */
+	
+	public void removeFirst(){
+		head = head.next;
+	}
+	
+	/*
+	 * Remove node at given key
+	 */
+	public void remove(T key){
+		// List is empty 
+		if(size == 0) 
+			throw new RuntimeException("List empty, unable to delete");
+		
+		// Delete the head node
+		if(head.item.equals(key)){
+			head = head.next;
+			size--;
 			return;
 		}
 		
-		head = new SListNode(item, head);
+		SListNode<T> cur = head;
+		SListNode<T> prev = null; 
 		
+		while(cur != null && !cur.item.equals(key)){
+			prev = cur;
+			cur = cur.next;
+		}
+		
+		if(cur == null)
+			throw new RuntimeException("Element not found");
+		
+		prev.next = cur.next;
+		size--;
 	}
 	
-	public void addLast(int item){
-		SListNode lastNode = traverse();
+	/*	
+	 * Add node at beginning of list
+	 */
+	public void addFirst(T item){
+		if(head == null){
+			head = new SListNode<T>(item);
+			size++;
+			return;
+		}
 		
-		lastNode.next = new SListNode(item);
-		tail = lastNode.next;
+		head = new SListNode<T>(item, head);
+		size++;
 	}
 	
-	// Inserting item at the front of a list
-	public void insertAfter(int key, int toInsert){
-		SListNode tmp = head;
+	/*
+	 * Insert item after a given node based on key
+	 */
+	public void insertAfter(T key, T toInsert){
+		SListNode<T> tmp = head;
 		
 		while(tmp != null && tmp.next.item != key){
 			tmp = tmp.next;
 		}
 		
-		if(tmp != null)
-			tmp.next.next = new SListNode(toInsert, tmp.next.next);
+		if(tmp == null)
+			throw new RuntimeException("Item not found");
+		
+		tmp.next.next = new SListNode<T>(toInsert, tmp.next.next);
+		size++;
 	}
 	
-	public void InsertBefore(int key, int toInsert){
-		SListNode tmp = head;
+	/*
+	 * Insert item after a given node based on key
+	 */
+	public void InsertBefore(T key, T toInsert){
+		SListNode<T> tmp = head;
 		
 		while(tmp != null && tmp.next.item != key){
 			tmp = tmp.next;
 		}
 		
-		tmp.next = new SListNode(toInsert, tmp.next);
+		if(tmp == null)
+			throw new RuntimeException("Item not found");
+		
+		tmp.next = new SListNode<T>(toInsert, tmp.next);
+		size++;
 		
 	}
 	
-	// Inserting item at the end of a list
+	 /*
+	  * Returns the last element in the list.
+	  */
+   public T getLast(){
+	  if(head == null) throw new NoSuchElementException();
+	  
+	  return traverse().item;
+    }
+	   
+	/*
+	 *  Removes all nodes from the list.
+	*/
+	public void clear(){
+	      head = null;
+	}
+	
+	/*
+	 * Delete first node in list
+	 */
 	public void deleteFront(){
-		if(head != null){
-			head = head.next;
-			size--; 
-		}
+		if(head == null)
+			throw new RuntimeException("List is empty, can't delete");
+	
+		head = head.next;
+		size--; 
 	}
+	
+	/*
+	 * Returns the node at the given index
+	 */
+	
+	public T find(int index){
+		
+		if (index < 1 || head == null)
+			throw new RuntimeException("List is empty, can't find item");
+		
+		SListNode<T> tmp = head;
+		
+		while(index != 1 && tmp != null){
+			tmp = tmp.next;
+			index--;
+		}
+		
+		if(tmp == null)
+			throw new RuntimeException("No item exists at this index");
+		
+		return tmp.item;	
+	}
+	
+	public String toString(){
+		SListNode<T> tmp = head;
+		
+		StringBuilder result = new StringBuilder();
+		
+		while(tmp != null){
+			result.append(tmp.item + ",");
+			tmp = tmp.next;
+		}
+		
+		return result.toString();
+	}
+	
 	
 	public static void main(String[] args){
-		SListNode testNode = new SListNode(4);
 		
-		SList test = new SList(testNode);
+		SList<Integer> test = new SList<>(3);
 		
-		System.out.println("first node: " + test.head.item);
+		System.out.println("Before: [" + test.toString() + "]");
 		
-		test.addFirst(6);
+		test.add(4);
+		test.add(5);
+		test.addFirst(200);
+		test.insertAfter(5,70);
+		test.remove(200);
+		test.removeFirst(); 
 		
-		System.out.println("new first node: " + test.head.item);
-		
-		test.insertAfter(4, 99);
-		
-		System.out.println("insert after: " + test.head.next.next.item);
-		
-		test.addLast(499);
-		
-		System.out.println("insert last: " + test.tail.item);
+		System.out.println("After: [" + test.toString() + "]");		
 	}
 }  
