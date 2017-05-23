@@ -1,36 +1,48 @@
 package HashTable;
 
-import java.util.Scanner;
 import LinkedList.SList;
 import LinkedList.SListNode;
 
 public class SeperateChainingHashT {
 	
-	WordList[] entries;
-	int capacity;
+	WordList[] entries; // array of WordList objects
+	int capacity;	// hash table size
 	
 	public SeperateChainingHashT(int cap){
 		capacity = isPrime(cap) ? cap : getNextPrime(cap);
 		entries = new WordList[capacity];
 		
+		// instantiate each bucket in entries with WordList containers
 		for(int i = 0; i < capacity; i++){
 			entries[i] = new WordList();
 		}
 	}
 	
-	// public methods
+	/*
+	 * Get word
+	 */
 	public Word get(String word){
 		return entries[stringHash(word)].find(word);
 	}
 	
+	/*
+	 * Add new word
+	 */
 	public void put(Word newWord){
 		String word = newWord.word; 
 		entries[stringHash(word)].add(newWord);
 	}
 	
+	/*
+	 * Remove word
+	 */
 	public void remove(String word){
 		entries[stringHash(word)].removeWord(word);
 	}
+	
+	/*
+	 * Display all lists
+	 */
 	
 	public void display(){
 		for(WordList list : entries){
@@ -40,10 +52,18 @@ public class SeperateChainingHashT {
 		}
 	}
 	
-	// private methods
+	/* ------ Utility Methods ------ */
+	
+	/*
+	 * Hash function for strings
+	 */
 	private int stringHash(String word){
 		return (word.hashCode() % capacity);
 	}
+	
+	/*
+	 * Check if number is prime
+	 */
 	
 	private boolean isPrime(int number){
 		if(number % 2 == 0){
@@ -58,6 +78,10 @@ public class SeperateChainingHashT {
 		return true;
 	}
 	
+	/*
+	 * Calculate next possible prime number given initial number
+	 */
+	
 	private int getNextPrime(int number){
 		for(int i = number; true; i++){
 			if(isPrime(i)){
@@ -65,7 +89,8 @@ public class SeperateChainingHashT {
 			}
 		}
 	}
-
+	/* ------------------------ */
+	
 	public static void main(String[] args){
 		SeperateChainingHashT testHashTable = new SeperateChainingHashT(31); 
 		
@@ -108,7 +133,7 @@ public class SeperateChainingHashT {
 			testHashTable.put(wordToAdd);
 		}
 		
-		testHashTable.display();
+		//testHashTable.display();
 	}
 }
 
@@ -132,6 +157,9 @@ class WordList extends SList<Word>{
 		super();
 	}
 	
+	/*
+	 * Find word that matches given word
+	 */
 	public Word find(String word){
 		if (word.equals("")|| head == null)
 			throw new RuntimeException("Enter a correct word to search or add a word to the list");
@@ -151,6 +179,9 @@ class WordList extends SList<Word>{
 		return current.item;
 	}
 	
+	/*
+	 * Remove word that matches given word
+	 */
 	public void removeWord(String word){
 		// List is empty 
 		if(size == 0) 
@@ -178,6 +209,9 @@ class WordList extends SList<Word>{
 		size--;
 	}
 	
+	/*
+	 * Display list 
+	 */
 	public void displayWordList(){
 		System.out.println("The size of this list is " + size);
 		if(size == 0){
@@ -185,11 +219,6 @@ class WordList extends SList<Word>{
 		}
 		
 		SListNode<Word> current = head;
-		
-		if(size >= 2){
-			System.out.println("head node is: " + current.item + " and next node is " + current.next.item);
-			return;
-		}
 		
 		while(current != null){
 			System.out.println(current.item);
