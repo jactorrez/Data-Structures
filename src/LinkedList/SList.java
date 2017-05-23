@@ -11,8 +11,8 @@ import java.util.NoSuchElementException;
 
 public class SList<T> {
 	
-	private SListNode<T> head;
-	private int size; 
+	protected SListNode<T> head;
+	protected int size; 
 	
 	public SList(){
 		head = null;
@@ -63,11 +63,13 @@ public class SList<T> {
 	public void add(T item){
 		
 		// List is empty
-		if(size == 0)
+		if(size == 0){
 			addFirst(item);
+			return;
+		}
+			
 		
 		SListNode<T> lastNode = traverse();
-		
 		lastNode.next = new SListNode<T>(item);
 		size++;
 	}
@@ -190,8 +192,7 @@ public class SList<T> {
 	 * Returns the node at the given index
 	 */
 	
-	public T find(int index){
-		
+	public T findNth(int index){
 		if (index < 1 || head == null)
 			throw new RuntimeException("List is empty, can't find item");
 		
@@ -224,16 +225,16 @@ public class SList<T> {
 	
 	public static void main(String[] args){
 		
-		SList<Integer> test = new SList<>(3);
+		SList<Integer> test = new SList<>();
 		
 		System.out.println("Before: [" + test.toString() + "]");
 		
 		test.add(4);
-		test.add(5);
-		test.addFirst(200);
-		test.insertAfter(5,70);
-		test.remove(200);
-		test.removeFirst(); 
+//		test.add(5);
+//		test.addFirst(200);
+//		test.insertAfter(5,70);
+//		test.remove(200);
+//		test.removeFirst(); 
 		
 		System.out.println("After: [" + test.toString() + "]");		
 	}

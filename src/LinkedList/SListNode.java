@@ -9,7 +9,6 @@ public class SListNode<T> {
 		this.next = next;
 	}
 	
-	
 	public SListNode(T item){
 		this(item, null);
 	}
