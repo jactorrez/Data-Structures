@@ -107,16 +107,16 @@ public class LinearProbingHashT {
 	}
 	
 	public static void main(String[] args){
-		LinearProbingHashT hashTest = new LinearProbingHashT(10);
-		System.out.println("------------- Before Resize -------------");
-		hashTest.put("40");
-		hashTest.put("80");
-		System.out.println("------------- After Resize -------------");
-		hashTest.resize(40);
-		hashTest.get("80");
-		hashTest.delete("80");
-		hashTest.get("80");
-		System.out.println("Total items in array: " + hashTest.N);
-		System.out.println("Total capacity: " + hashTest.capacity);
+//		LinearProbingHashT hashTest = new LinearProbingHashT(10);
+//		System.out.println("------------- Before Resize -------------");
+//		hashTest.put("40");
+//		hashTest.put("80");
+//		System.out.println("------------- After Resize -------------");
+//		hashTest.resize(40);
+//		hashTest.get("80");
+//		hashTest.delete("80");
+//		hashTest.get("80");
+//		System.out.println("Total items in array: " + hashTest.N);
+//		System.out.println("Total capacity: " + hashTest.capacity);
 	}
 }
