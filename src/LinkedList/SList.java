@@ -60,14 +60,13 @@ public class SList<T> {
 	/* 
 	 *  Add node 
 	 */
-	public void add(T item){
+	public void addLast(T item){
 		
 		// List is empty
 		if(size == 0){
 			addFirst(item);
 			return;
-		}
-			
+		}		
 		
 		SListNode<T> lastNode = traverse();
 		lastNode.next = new SListNode<T>(item);
@@ -124,6 +123,13 @@ public class SList<T> {
 		
 		head = new SListNode<T>(item, head);
 		size++;
+	}
+	
+	public T getFirst(){
+		if(head == null)
+			throw new RuntimeException("List is empty, can't delete"); 
+		
+		return head.item;
 	}
 	
 	/*
@@ -229,7 +235,7 @@ public class SList<T> {
 		
 		System.out.println("Before: [" + test.toString() + "]");
 		
-		test.add(4);
+		test.addLast(4);
 //		test.add(5);
 //		test.addFirst(200);
 //		test.insertAfter(5,70);
