@@ -2,6 +2,9 @@ package Trees;
 
 import java.util.Iterator;
 
+/*
+ * An interface for a tree
+ */
 public interface Tree<T> extends Iterable<T> {
 	
 	Position<T> root();
