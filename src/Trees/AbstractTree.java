@@ -19,7 +19,7 @@ public abstract class AbstractTree<E> implements Tree<E>{
 	}
 	
 	/*
-	 * Returns the number of levels separating Postion p from the root
+	 * Returns the number of levels separating Position p from the root
 	 */
 	public int depth(Position<E> p){
 		if(isRoot(p)){
