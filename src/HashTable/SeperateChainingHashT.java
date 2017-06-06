@@ -30,7 +30,7 @@ public class SeperateChainingHashT {
 	 */
 	public void put(Word newWord){
 		String word = newWord.word; 
-		entries[stringHash(word)].add(newWord);
+		entries[stringHash(word)].addLast(newWord);
 	}
 	
 	/*
