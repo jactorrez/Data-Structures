@@ -220,5 +220,6 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> implements Binary
 		
 		return temp;
 	}
+	
 }	
 

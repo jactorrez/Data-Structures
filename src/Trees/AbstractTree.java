@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import Queue.LinkedQueue;
+import Queue.Queue;
+
 public abstract class AbstractTree<E> implements Tree<E>{
 	
 	public boolean isInternal(Position<E> p){
@@ -59,6 +62,7 @@ public abstract class AbstractTree<E> implements Tree<E>{
 	// nested ElementIterator class
 	private class ElementIterator implements Iterator<E>{
 		Iterator<Position<E>> postIterator = positions().iterator();
+		
 		public boolean hasNext(){
 			return postIterator.hasNext();
 		}
@@ -94,6 +98,23 @@ public abstract class AbstractTree<E> implements Tree<E>{
 		return snapshot;
 	}
 	
+	public Iterable<Position<E>> breadthfirst(){
+		List<Position<E>> snapshot = new ArrayList<>();
+		if(!isEmpty()){
+			Queue<Position<E>> fringe = new LinkedQueue<>();
+			fringe.enqueue(root());
+			while(!fringe.isEmpty()){
+				Position<E> p = fringe.dequeue();
+				snapshot.add(p);
+				for(Position<E> c : children(p)){
+					fringe.enqueue(c);
+				}
+			}
+		}
+		
+		return snapshot;
+	}
+	
 	/*
 	 * Adds positions of the subtree rooted at Position p to the given snapshot
 	 */
@@ -110,4 +131,6 @@ public abstract class AbstractTree<E> implements Tree<E>{
 		}
 		snapshot.add(p);
 	}
+	
+	
 }
