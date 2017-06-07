@@ -1,5 +1,9 @@
 package Trees;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public abstract class AbstractTree<E> implements Tree<E>{
 	
 	public boolean isInternal(Position<E> p){
@@ -39,7 +43,6 @@ public abstract class AbstractTree<E> implements Tree<E>{
 				h = Math.max(h, depth(p));
 			}	
 		}
-		
 		return h;
 	}
 	
@@ -51,5 +54,44 @@ public abstract class AbstractTree<E> implements Tree<E>{
 			h = Math.max(h, 1 + height(c));
 		}
 		return h; 
+	}
+	
+	// nested ElementIterator class
+	private class ElementIterator implements Iterator<E>{
+		Iterator<Position<E>> postIterator = positions().iterator();
+		public boolean hasNext(){
+			return postIterator.hasNext();
+		}
+		
+		public E next(){
+			return postIterator.next().getElement();
+		}
+		
+		public void remove(){
+			postIterator.remove();
+		}
+	}
+	
+	public Iterator<E> iterator(){
+		return new ElementIterator();
+	}
+	
+	public Iterable<Position<E>> preorder(){
+		List<Position<E>> snapshot = new ArrayList<>();
+		if(!isEmpty()){
+			preorderSubtree(root(), snapshot);
+		}
+		
+		return snapshot;
+	}
+	
+	/*
+	 * Adds positions of the subtree rooted at Position p to the given snapshot
+	 */
+	private void preorderSubtree(Position<E> p, List<Position<E>> snapshot){
+		snapshot.add(p);
+		for(Position<E> c :children(p)){
+			preorderSubtree(c, snapshot);
+		}
 	}
 }
