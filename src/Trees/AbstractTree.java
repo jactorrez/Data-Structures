@@ -85,6 +85,15 @@ public abstract class AbstractTree<E> implements Tree<E>{
 		return snapshot;
 	}
 	
+	public Iterable<Position<E>> postorder(){
+		List<Position<E>> snapshot = new ArrayList<>();
+		if(!isEmpty()){
+			preorderSubtree(root(), snapshot);
+		}
+		
+		return snapshot;
+	}
+	
 	/*
 	 * Adds positions of the subtree rooted at Position p to the given snapshot
 	 */
@@ -93,5 +102,12 @@ public abstract class AbstractTree<E> implements Tree<E>{
 		for(Position<E> c :children(p)){
 			preorderSubtree(c, snapshot);
 		}
+	}
+	
+	private void postorderSubtree(Position<E> p, List<Position<E>> snapshot){
+		for(Position<E> c : children(p)){
+			postorderSubtree(c, snapshot);
+		}
+		snapshot.add(p);
 	}
 }
