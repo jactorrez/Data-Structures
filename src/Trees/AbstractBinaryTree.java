@@ -8,7 +8,7 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E> implements B
 	/*
 	 * Return's the Position of p's sibling (or null if no sibling exists)
 	 */
-	public Position<E> sibling(Position<E> p){
+	public Position<E> sibling(Position<E> p) throws IllegalArgumentException{
 		Position<E> parent = parent(p);
 		if(parent == null){
 			return null;
@@ -51,6 +51,37 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E> implements B
 		}
 		
 		return snapshot;
+	}
+	
+	/*
+	 * Adds positions of the subtree rooted at Position p to the given snapshot
+	 */
+	private void inorderSubtree(Position<E> p, List<Position<E>> snapshot){
+		if(left(p) != null){
+			inorderSubtree(left(p), snapshot);
+		}
+		snapshot.add(p);
+		if(right(p) != null){
+			inorderSubtree(sibling(p), snapshot);
+		}
+	}
+	
+	/*
+	 * Returns an itearble collection of positions of the tree, reported in order
+	 */
+	public Iterable<Position<E>> inorder(){
+		List<Position<E>> snapshot = new ArrayList<>();
+		if(!isEmpty()){
+			inorderSubtree(root(), snapshot);	// fill the snapshot recursively
+		}
+		return snapshot;
+	}
+	
+	/*
+	 * Overrides positions to make inorder the default order for binary trees
+	 */
+	public Iterable<Position<E>> positions(){
+		return inorder();
 	}
 	
 }

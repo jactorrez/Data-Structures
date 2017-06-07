@@ -114,7 +114,7 @@ public abstract class AbstractTree<E> implements Tree<E>{
 		
 		return snapshot;
 	}
-	
+
 	/*
 	 * Adds positions of the subtree rooted at Position p to the given snapshot
 	 */
