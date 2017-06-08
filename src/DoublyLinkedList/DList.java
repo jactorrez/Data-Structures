@@ -163,7 +163,6 @@ public class DList<T>{
 		test.add(3);
 		test.addFirst(4);
 		
-		System.out.println(test.head.next.item);
-		
+		System.out.println(test.head.next.item);	
 	}
 }
