@@ -1,6 +1,9 @@
 package List;
 
-public class ArrayList<E> implements List<E> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class ArrayList<E> implements List<E>, Iterable<E> {
 	// instance variables
 	public static final int CAPACITY = 16; 		// default array capacity
 	private E[] data;							// generic array used for storage
@@ -94,6 +97,44 @@ public class ArrayList<E> implements List<E> {
 		}
 		
 		data = temp;		// start using the new array
+	}
+	
+	public Iterator<E> iterator(){
+		return new ArrayIterator();
+	}
+	
+	// nested ArrayIterator class to make containing class iterable
+	
+	/* A non-static inner class. Each instance contains an implicit reference to
+	 * the containing list, allowing it to access the lists' members 
+	 */
+	private class ArrayIterator implements Iterator<E>{
+		private int j = 0;
+		private boolean removable = false;
+		
+		/* Tests whether the iterator has a next object */
+		public boolean hasNext(){
+			return j < size;
+		}
+		
+		/* Returns the next object in the iterator */
+		public E next() throws NoSuchElementException{
+			if(j == size)
+				throw new NoSuchElementException("No elements left"); 
+			removable = true;		// element can be subsequently removed
+			return data[j++];
+		}
+		
+		/* Removes the element returned by most recent call to next */
+		public void remove() throws IllegalStateException{
+			if(!removable)
+				throw new IllegalStateException("Nothing to remove");
+			
+			ArrayList.this.remove(--j);
+			removable = false;
+		}
+		
+		
 	}
 	
 }
