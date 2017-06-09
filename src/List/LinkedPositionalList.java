@@ -1,6 +1,9 @@
 package List;
 
-public class LinkedPositionalList<E> implements PositionalList<E>{
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedPositionalList<E> implements PositionalList<E>, Iterable<E>{
 	
 	// instance variables 
 	private Node<E> header;  // header sentinel 
@@ -130,7 +133,67 @@ public class LinkedPositionalList<E> implements PositionalList<E>{
 		return element;
 	}
 	
+	/* Iterators and iterable classes */
+	// nested PositionIterator class 
 	
+	private class PositionIterator implements Iterator<Position<E>>{
+		private Position<E> cursor = first();
+		private Position<E> recent = null;
+		
+		// tests if iterator has a next object
+		public boolean hasNext(){
+			return (cursor != null);
+		}
+		
+		// returns the next position in the iterator
+		public Position<E> next() throws NoSuchElementException{
+			if(cursor == null) 
+				throw new NoSuchElementException("nothing left");
+			recent = cursor;		// element at this position might later be removed
+			cursor = after(cursor);
+			return recent;
+		}
+		
+		public void remove() throws IllegalStateException{
+			if(recent == null)
+				throw new IllegalStateException("nothing to remove");
+			LinkedPositionalList.this.remove(recent); // remove from outer list
+			recent = null;							  // do not allow remove again until next is called
+		}
+	}
+	
+	// nested PositionIterable class 
+	private class PositionIterable implements Iterable<Position<E>>{
+		public Iterator<Position<E>> iterator(){
+			return new PositionIterator();
+		}
+	}
+	
+	/* Returns an iterable representation of the list's positions */
+	public Iterable<Position<E>> positions(){
+		return new PositionIterable();
+	}
+	
+	/* nested ElementIterator class */
+	private class ElementIterator implements Iterator<E>{
+		Iterator<Position<E>> postIterator = new PositionIterator();
+		public boolean hasNext(){
+			return postIterator.hasNext();
+		}
+		
+		public E next(){
+			return postIterator.next().getElement();
+		}
+		
+		public void remove(){
+			postIterator.remove();
+		}	
+	}
+	
+	/* Returns an iterator of the elements stored in the list */
+	public Iterator<E> iterator(){
+		return new ElementIterator();
+	}
 	/* ----- nested Node class ----- */
 	private static class Node<E> implements Position<E>{
 		private E element; 		// reference to the element stored at this node
