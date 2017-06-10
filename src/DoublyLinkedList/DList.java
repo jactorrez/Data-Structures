@@ -1,12 +1,12 @@
 package DoublyLinkedList;
 
 public class DList<T>{
-	private DListNode<T> head; // Points to sentinel
+	private DListNode<T> sentinel; // Points to sentinel
 	private int size;
 	
 	public DList(){
-		head = new DListNode<T>(null, null, null);
-		head.next = head.prev = head;
+		sentinel = new DListNode<T>(null, null, null);
+		sentinel.next = sentinel.prev = sentinel;
 		size = 0;
 	}
 	
@@ -14,13 +14,13 @@ public class DList<T>{
 	
 	// Returns node contained the given value, item
 	private DListNode<T> find(T item){
-		DListNode<T> tmp = head.next;
+		DListNode<T> tmp = sentinel.next;
 		
-		while(tmp != head && !tmp.item.equals(item) ){
+		while(tmp != sentinel && !tmp.item.equals(item) ){
 			tmp = tmp.next;
 		}
 		
-		if(tmp == head)
+		if(tmp == sentinel)
 			throw new RuntimeException("Item not found");
 		
 		return tmp;
@@ -52,14 +52,14 @@ public class DList<T>{
 	 * Adds item to end of a list
 	 */
 	public void add(T item) {
-        DListNode<T> last = head.prev;
+        DListNode<T> last = sentinel.prev;
         DListNode<T> newNode = new DListNode<T>(item);
-        newNode.next = head;
+        newNode.next = sentinel;
         newNode.prev = last;
-        head.prev = newNode;
+        sentinel.prev = newNode;
         
-        if(head.next == head)
-        	head.next = newNode;
+        if(sentinel.next == sentinel)
+        	sentinel.next = newNode;
         
         size++;
     }
@@ -68,13 +68,13 @@ public class DList<T>{
 	 * Adds item to beginning of a list
 	 */
 	public void addFirst(T item) {
-		DListNode<T> currentFirst = head.next;
-		DListNode<T> newNode = new DListNode<>(item, currentFirst, head);
+		DListNode<T> currentFirst = sentinel.next;
+		DListNode<T> newNode = new DListNode<>(item, currentFirst, sentinel);
 		currentFirst.prev = newNode;
-		head.next = newNode;
+		sentinel.next = newNode;
 		
-		if(head.prev == head)
-			head.prev = newNode;
+		if(sentinel.prev == sentinel)
+			sentinel.prev = newNode;
 		
 		size++;
 	}
@@ -95,10 +95,10 @@ public class DList<T>{
 	 * Removes last item in list
 	 */
 	public void removeLast(){
-		DListNode<T> last = head.prev;
+		DListNode<T> last = sentinel.prev;
 		DListNode<T> lastPrev = last.prev;
-		head.prev = last.prev;
-		lastPrev.next = head;
+		sentinel.prev = last.prev;
+		lastPrev.next = sentinel;
 		size--;
 	}
 	
@@ -106,11 +106,11 @@ public class DList<T>{
 	 * Removes first item in list
 	 */
 	public void removeFirst(){
-		DListNode<T> first = head.next;
+		DListNode<T> first = sentinel.next;
 		DListNode<T> firstNext = first.next;
 		
-		head.next = firstNext;
-		firstNext.prev = head;
+		sentinel.next = firstNext;
+		firstNext.prev = sentinel;
 		size--;
 	}
 	
@@ -118,7 +118,7 @@ public class DList<T>{
 	 * Retrieves first item in list
 	 */
 	public T getFirst() { 
-	    DListNode<T> first = head.next;
+	    DListNode<T> first = sentinel.next;
 	    return first.item;
 	}
 	
@@ -126,7 +126,7 @@ public class DList<T>{
 	 * Retrives last item in list
 	 */
 	public T getLast() { 
-	    DListNode<T> last = head.prev;
+	    DListNode<T> last = sentinel.prev;
 	    return last.item;
 	}
 	
@@ -134,7 +134,7 @@ public class DList<T>{
 	 * Completely clears list
 	 */
 	public void clear(){
-		head.next = head.prev = head;
+		sentinel.next = sentinel.prev = sentinel;
 		size = 0;
 	}
 	
@@ -143,10 +143,10 @@ public class DList<T>{
 	 */
 	public String toString() {
 		
-		DListNode<T> tmp = head.next;
+		DListNode<T> tmp = sentinel.next;
 		StringBuilder result = new StringBuilder();
 		result.append("[");
-		while(tmp != head){
+		while(tmp != sentinel){
 			
 			result.append(tmp.item + ",");
 			
@@ -163,6 +163,6 @@ public class DList<T>{
 		test.add(3);
 		test.addFirst(4);
 		
-		System.out.println(test.head.next.item);	
+		System.out.println(test.sentinel.next.item);	
 	}
 }
