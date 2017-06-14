@@ -3,7 +3,8 @@ package Map;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import LinkedList.SListNode;
+import Map.LinkedListNode;
+import List.Position;
 import PriorityQueue.Entry;
 
 public class EntryLinkedList<K,V> {
@@ -59,17 +60,23 @@ public class EntryLinkedList<K,V> {
 	 */
 	public LinkedListNode<K,V> add(K key, V value){
 		
+		LinkedListNode<K,V> foundNode = find(key);
+		
 		// List is empty
 		if(size == 0){
 			addFirst(key, value);
 			return getFirst();
 		}		
 		
-		LinkedListNode<K,V> lastNode = traverse();
-		lastNode.setNext(new LinkedListNode<K,V>(key, value));
-		size++;
-		
-		return getLast();
+		if(foundNode == null){
+			LinkedListNode<K,V> lastNode = traverse();
+			lastNode.setNext(new LinkedListNode<K,V>(key, value));
+			size++;
+			return getLast();
+		} else{
+			foundNode.setValue(value);
+			return foundNode;
+		}
 	}
 	
 	/*
@@ -91,9 +98,11 @@ public class EntryLinkedList<K,V> {
 		
 		// Delete the head node
 		if(head.getKey().equals(key)){
+			
+			LinkedListNode<K,V> oldHead = head;
 			head = head.getNext();
 			size--;
-			return head;
+			return oldHead;
 		}
 		
 		LinkedListNode<K,V> current = head;
@@ -107,10 +116,12 @@ public class EntryLinkedList<K,V> {
 		if(current == null)
 			throw new RuntimeException("Element not found");
 		
+		LinkedListNode<K,V> curr = current;
 		prev.setNext(current.getNext());
+		System.out.println("CURR VALUE: " + curr);
 		size--;
 		
-		return current;
+		return curr;
 	}
 	
 	/*	
@@ -186,9 +197,8 @@ public class EntryLinkedList<K,V> {
 	}
 	
 	/*
-	 * Returns the node with the given key
+	 * Finds and returns the node with the given key
 	 */
-	
 	public LinkedListNode<K,V> find(K key){
 		
 		LinkedListNode<K,V> tmp = head;
@@ -198,7 +208,7 @@ public class EntryLinkedList<K,V> {
 		}
 		
 		if(tmp == null)
-			throw new RuntimeException("No item exists at this index");
+			return null;
 		
 		return tmp;	
 	}
@@ -206,16 +216,20 @@ public class EntryLinkedList<K,V> {
 
 	private class EntryIterator implements Iterator<Entry<K,V>>{
 		private LinkedListNode<K,V> current = head;
+		private LinkedListNode<K,V> recent = null;
 		
 		public boolean hasNext(){
-			return (current.getNext() != null);
+			return current != null;
 		}
 		
 		public LinkedListNode<K,V> next(){
 			if(current == null) 
 				throw new NoSuchElementException();
 			
-			return current.getNext();
+			recent = current;
+			current = current.getNext();
+			
+			return recent;
 		}
 		
 		public void remove(){
@@ -232,5 +246,16 @@ public class EntryLinkedList<K,V> {
 	/* Returns an iterable collection of all key-value entries of the map */
 	public Iterable<Entry<K,V>> entrySet(){
 		return new EntryIterable();
+	}
+	
+	public static void main(String[] args){
+//		EntryLinkedList<String, Integer> test = new EntryLinkedList<>();
+//		test.add("Javier", 20);
+//		test.add("John", 20);
+//		test.add("Janet", 12);
+//
+//		for(Entry<String,Integer> entry : test.entrySet()){
+//			System.out.println(entry.getKey());
+//		}
 	}
 }

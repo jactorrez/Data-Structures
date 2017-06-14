@@ -44,7 +44,7 @@ public class ChainHashMap<K,V> extends AbstractHashMap<K,V>{
 			bucket = table[h] = new EntryLinkedList<>();
 		
 		int oldSize = bucket.getSize();
-		V answer = bucket.add(k, v).getValue();
+		V answer = bucket.add(k,v).getValue();
 		n += (bucket.getSize() - oldSize);				// size may have increased
 		return answer;
 	}
@@ -57,6 +57,7 @@ public class ChainHashMap<K,V> extends AbstractHashMap<K,V>{
 		int oldSize = bucket.getSize();
 		V answer = bucket.remove(key).getValue();
 		n -= (oldSize - bucket.getSize());				  // size may have decreased
+		
 		return answer; 
 	}
 	
@@ -73,6 +74,16 @@ public class ChainHashMap<K,V> extends AbstractHashMap<K,V>{
 		return buffer;
 	}
 	
-	
+	public static void main(String[] args){
+		ChainHashMap<String, Integer> test = new ChainHashMap<>(11);
+		System.out.println("Current item size: " + test.size());
+		test.put("Javier", 20);
+		test.remove("Javier");
+		test.put("Grammy", 18);
+		test.put("Mike", 21);
+		for(Entry<String, Integer> entry : test.entrySet()){
+			System.out.println(entry.getKey());
+		}
+	}
 	
 }
