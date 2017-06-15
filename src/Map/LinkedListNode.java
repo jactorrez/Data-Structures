@@ -35,8 +35,10 @@ public class LinkedListNode<K,V> implements Entry<K,V>{
 		this.key = key;
 	}
 	
-	public void setValue(V value){
+	public V setValue(V value){
+		V oldVal = this.value;
 		this.value = value;
+		return oldVal;
 	}
 	
 	public void setNext(LinkedListNode<K,V> next){
