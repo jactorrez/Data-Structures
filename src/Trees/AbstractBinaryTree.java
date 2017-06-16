@@ -61,6 +61,7 @@ public abstract class AbstractBinaryTree<E> extends AbstractTree<E> implements B
 			inorderSubtree(left(p), snapshot);
 		}
 		snapshot.add(p);
+		
 		if(right(p) != null){
 			inorderSubtree(sibling(p), snapshot);
 		}

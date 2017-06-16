@@ -1,5 +1,6 @@
 package Trees;
 
+
 /*
  * Concrete implementation of a binary tree using a node-based, linked structure
  */
@@ -15,54 +16,6 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> implements Binary
 	// Function to create a new node storing element e 
 	protected Node<T> createNode(T e, Node<T> parentNode, Node<T> leftNode, Node<T> rightNode){
 		return new Node(e, parentNode, leftNode, rightNode);
-	}
-	// nested Node class
-	protected static class Node<E> implements Position<E>{
-		private E element;		// element stored in current node
-		private Node<E> parent;	// a reference to the parent node (if any)
-		private Node<E> left; 	// reference to the left child node (if any)
-		private Node<E> right;  // reference to the right child node (if any)
-		
-		public Node(E e, Node<E> above, Node<E> leftChild, Node<E> rightChild){
-			element = e;
-			parent = above;
-			left = leftChild;
-			right = rightChild;
-		}
-		
-		// accessor methods 
-		public E getElement(){
-			return element;
-		}
-		
-		public Node<E> getParent(){
-			return parent;
-		}
-		
-		public Node<E> getLeft(){
-			return left;
-		}
-		
-		public Node<E> getRight(){
-			return right;
-		}
-		
-		// update methods
-		public void setElement(E e){
-			element = e;
-		}
-		
-		public void setParent(Node<E> parentNode){
-			parent = parentNode;
-		}
-		
-		public void setLeft(Node<E> leftNode){
-			left = leftNode;
-		}
-		
-		public void setRight(Node<E> rightNode){
-			right = rightNode;
-		}
 	}
 	
 	// Non-public utility 
@@ -220,6 +173,56 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> implements Binary
 		
 		return temp;
 	}
+	
+	// nested Node class
+		protected static class Node<E> implements Position<E>{
+			private E element;		// element stored in current node
+			private Node<E> parent;	// a reference to the parent node (if any)
+			private Node<E> left; 	// reference to the left child node (if any)
+			private Node<E> right;  // reference to the right child node (if any)
+			
+			public Node(E e, Node<E> above, Node<E> leftChild, Node<E> rightChild){
+				element = e;
+				parent = above;
+				left = leftChild;
+				right = rightChild;
+			}
+			
+			// accessor methods 
+			public E getElement(){
+				return element;
+			}
+			
+			public Node<E> getParent(){
+				return parent;
+			}
+			
+			public Node<E> getLeft(){
+				return left;
+			}
+			
+			public Node<E> getRight(){
+				return right;
+			}
+			
+			// update methods
+			public void setElement(E e){
+				element = e;
+			}
+			
+			public void setParent(Node<E> parentNode){
+				parent = parentNode;
+			}
+			
+			public void setLeft(Node<E> leftNode){
+				left = leftNode;
+			}
+			
+			public void setRight(Node<E> rightNode){
+				right = rightNode;
+			}
+		}
+		
 	
 }	
 

@@ -120,7 +120,7 @@ public abstract class AbstractTree<E> implements Tree<E>{
 	 */
 	private void preorderSubtree(Position<E> p, List<Position<E>> snapshot){
 		snapshot.add(p);
-		for(Position<E> c :children(p)){
+		for(Position<E> c : children(p)){
 			preorderSubtree(c, snapshot);
 		}
 	}
