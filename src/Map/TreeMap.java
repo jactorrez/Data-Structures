@@ -179,9 +179,11 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 	/* Returns an iterable of entries with keys in range [fromKey, toKey) */
 	public Iterable<Entry<K,V>> subMap(K fromKey, K toKey){
 		ArrayList<Entry<K,V>> buffer = new ArrayList<>(size());
+		
 		if(compare(fromKey, toKey) < 0){
 			subMapRecurse(fromKey, toKey, root(), buffer);
 		}
+		
 		return buffer;
 	}
 	
@@ -190,12 +192,12 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 	private void subMapRecurse(K fromKey, K toKey, Position<Entry<K,V>> p, ArrayList<Entry<K,V>> buffer){
 		if(isInternal(p)){
 			if(compare(p.getElement(), fromKey) < 0){
-				// p's key is less fromKey, so any relevant entries are to the right 
+				// p's key is less than fromKey, so any relevant entries are to the right 
 				subMapRecurse(fromKey, toKey, right(p), buffer);
 			} else {
-				subMapRecurse(fromKey, toKey, left(p), buffer); // first consider left subtree
+				subMapRecurse(fromKey, toKey, left(p), buffer); 	    // first consider left subtree
 				
-				if(compare(p.getElement(), toKey) < 0) {		// p is within range
+				if(compare(p.getElement(), toKey) < 0) {		        // p is within range
 					buffer.add(p.getElement());
 					subMapRecurse(fromKey, toKey, right(p), buffer); 	// right subtree as well
 				}
@@ -238,4 +240,11 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 	protected Position<Entry<K,V>> root(){
 		return tree.root();
 	}
+	
+	/* --- Hooks for rebalancing framework */
+	
+	protected void rebalanceInsert(Position<Entry<K,V>> p){}
+	protected void rebalanceDelete(Position<Entry<K,V>> p){}
+	protected void rebalanceAccess(Position<Entry<K,V>> p){}
+	
 }
