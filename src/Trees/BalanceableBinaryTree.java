@@ -1,8 +1,6 @@
-package Map;
+package Trees;
 
-import Trees.Position;
 import PriorityQueue.Entry;
-import Trees.LinkedBinaryTree;
 
 public class BalanceableBinaryTree<K,V> extends LinkedBinaryTree<Entry<K,V>>{
 	

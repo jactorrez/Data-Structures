@@ -3,6 +3,7 @@ package Map;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import Trees.BalanceableBinaryTree;
 import Trees.Position;
 import PriorityQueue.Entry;
 
