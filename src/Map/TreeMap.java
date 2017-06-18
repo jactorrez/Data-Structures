@@ -115,6 +115,18 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 		return parent(walk);		    // we want the parent of the leaf
 	}
 	
+	 /**
+	   * Returns position with the minimal key in the subtree rooted at Position p.
+	   * @param p  a Position of the tree serving as root of a subtree
+	   * @return Position with minimal key in subtree
+	   */
+	  protected Position<Entry<K,V>> treeMin(Position<Entry<K,V>> p) {
+	    Position<Entry<K,V>> walk = p;
+	    while (isInternal(walk))
+	      walk = left(walk);
+	    return parent(walk);              // we want the parent of the leaf
+	  }
+	
 	/* Returns the entry having the greatest key (or null if map is empty) */
 	public Entry<K,V> lastEntry(){
 		if(isEmpty()){
@@ -242,10 +254,64 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 		return tree.root();
 	}
 	
-	/* --- Hooks for rebalancing framework */
+	/* --- Hooks for rebalancing framework --- */
 	
 	protected void rebalanceInsert(Position<Entry<K,V>> p){}
 	protected void rebalanceDelete(Position<Entry<K,V>> p){}
 	protected void rebalanceAccess(Position<Entry<K,V>> p){}
 	
+	/* Copied from online version of code */
+	/**
+	   * Returns the entry with least key greater than or equal to given key
+	   * (or null if no such key exists).
+	   * @return entry with least key greater than or equal to given (or null if no such entry)
+	   * @throws IllegalArgumentException if the key is not compatible with the map
+	   */
+	  @Override
+	  public Entry<K,V> ceilingEntry(K key) throws IllegalArgumentException {
+	    checkKey(key);                              // may throw IllegalArgumentException
+	    Position<Entry<K,V>> p = treeSearch(root(), key);
+	    if (isInternal(p)) return p.getElement();   // exact match
+	    while (!isRoot(p)) {
+	      if (p == left(parent(p)))
+	        return parent(p).getElement();          // parent has next greater key
+	      else
+	        p = parent(p);
+	    }
+	    return null;                                // no such ceiling exists
+	  }
+	 
+
+	  /**
+	   * Returns the entry with least key strictly greater than given key
+	   * (or null if no such key exists).
+	   * @return entry with least key strictly greater than given (or null if no such entry)
+	   * @throws IllegalArgumentException if the key is not compatible with the map
+	   */
+	  @Override
+	  public Entry<K,V> higherEntry(K key) throws IllegalArgumentException {
+	    checkKey(key);                               // may throw IllegalArgumentException
+	    Position<Entry<K,V>> p = treeSearch(root(), key);
+	    if (isInternal(p) && isInternal(right(p)))
+	      return treeMin(right(p)).getElement();     // this is the successor to p
+	    // otherwise, we had failed search, or match with no right child
+	    while (!isRoot(p)) {
+	      if (p == left(parent(p)))
+	        return parent(p).getElement();           // parent has next lesser key
+	      else
+	        p = parent(p);
+	    }
+	    return null;                                 // no such greater key exists
+	  }
+	  
+	// additional behaviors of the SortedMap interface
+	  /**
+	   * Returns the entry having the least key (or null if map is empty).
+	   * @return entry with least key (or null if map is empty)
+	   */
+	  @Override
+	  public Entry<K,V> firstEntry() {
+	    if (isEmpty()) return null;
+	    return treeMin(root()).getElement();
+	  }
 }
