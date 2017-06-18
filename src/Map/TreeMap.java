@@ -209,31 +209,31 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 	// ---- Wrapper functions to ease access of tree functions ---- 
 
 	/* Tests whether given node is an internal node */
-	private boolean isInternal(Position<Entry<K,V>> p){
+	protected boolean isInternal(Position<Entry<K,V>> p){
 		return tree.isInternal(p);
 	}
 
 	/* Tests whether given node is an external node */
-	private boolean isExternal(Position<Entry<K,V>> p){
+	protected boolean isExternal(Position<Entry<K,V>> p){
 		return tree.isExternal(p);
 	}
 
 	/* Returns left child of the given node (if any) */
-	private Position<Entry<K,V>> left(Position<Entry<K,V>> p){
+	protected Position<Entry<K,V>> left(Position<Entry<K,V>> p){
 		return tree.left(p);
 	}
 	
 	/* Returns right child of the given node (if any) */
-	private Position<Entry<K,V>> right(Position<Entry<K,V>> p){
+	protected Position<Entry<K,V>> right(Position<Entry<K,V>> p){
 		return tree.right(p);
 	}
 	/* Tests whether given node is the root */
-	private boolean isRoot(Position<Entry<K,V>> p){
+	protected boolean isRoot(Position<Entry<K,V>> p){
 		return (tree.root() == p);
 	}
 	
 	/* Returns parent of given position/node */
-	private Position<Entry<K,V>> parent(Position<Entry<K,V>> p){
+	protected Position<Entry<K,V>> parent(Position<Entry<K,V>> p){
 		return tree.parent(p);
 	}
 	
