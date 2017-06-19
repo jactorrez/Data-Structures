@@ -9,10 +9,6 @@ import Queue.Queue;
 
 public abstract class AbstractTree<E> implements Tree<E>{
 	
-	public boolean isInternal(Position<E> p){
-		return numChildren(p) > 0;
-	}
-	
 	public boolean isExternal(Position<E> p){
 		return numChildren(p) == 0; 
 	}
@@ -25,6 +21,10 @@ public abstract class AbstractTree<E> implements Tree<E>{
 		return size() == 0;
 	}
 	
+	public boolean isInternal(Position<E> p){
+		return numChildren(p) > 0;
+	}
+
 	/*
 	 * Returns the number of levels separating Position p from the root
 	 */

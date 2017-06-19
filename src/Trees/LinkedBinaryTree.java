@@ -63,7 +63,7 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> implements Binary
 		if(!isEmpty())
 			throw new IllegalArgumentException("The tree is not empty");
 		
-		root = new Node<>(e, null, null, null);
+		root = createNode(e, null, null, null);
 		size = 1;
 		return root;
 	}
@@ -77,7 +77,7 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> implements Binary
 		if(parent.getLeft() != null){
 			throw new IllegalArgumentException("The node already has a left child");
 		}
-		Node<T> child = new Node<>(e, parent, null, null);
+		Node<T> child = createNode(e, parent, null, null);
 		parent.setLeft(child);
 		size++;
 		return child;
@@ -92,7 +92,7 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> implements Binary
 		if(parent.getRight() != null){
 			throw new IllegalArgumentException("The node already has a right child");
 		}
-		Node<T> child = new Node<>(e, parent, null, null);
+		Node<T> child = createNode(e, parent, null, null);
 		parent.setRight(child);
 		size++;
 		return child;

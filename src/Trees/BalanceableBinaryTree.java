@@ -5,12 +5,12 @@ import PriorityQueue.Entry;
 public class BalanceableBinaryTree<K,V> extends LinkedBinaryTree<Entry<K,V>>{
 	
 	// positional-based methods related to aux field 
-	public int getAux(Position<Entry<K,V>> p){
-		return ((BSTNode<Entry<K,V>>) p).getAux();
+	public int getHeight(Position<Entry<K,V>> p){
+		return ((BSTNode<Entry<K,V>>) p).getHeight();
 	}
 	
-	public void setAux(Position<Entry<K,V>> p, int value){
-		((BSTNode<Entry<K,V>>) p).setAux(value);
+	public void setHeight(Position<Entry<K,V>> p, int value){
+		((BSTNode<Entry<K,V>>) p).setHeight(value);
 	}
 	
 	// Override node factory function to produce a BSTNode (rather than a Node)
@@ -39,7 +39,7 @@ public class BalanceableBinaryTree<K,V> extends LinkedBinaryTree<Entry<K,V>>{
 			root = x;
 			x.setParent(null);
 		} else{
-			relink(z,x,y == z.getLeft());		// x becomes direct child of z
+			relink(z, x, y == z.getLeft());		// x becomes direct child of z
 		}
 		
 		// now rotate x and y, including transfer of middle subtree
@@ -54,7 +54,7 @@ public class BalanceableBinaryTree<K,V> extends LinkedBinaryTree<Entry<K,V>>{
 	}
 	
 	
-	/* Performs a trinode restructuring of Position x with its parent/grandparent */
+	/* Performs a tri-node restructuring of Position x with its parent/grandparent */
 	public Position<Entry<K,V>> restructure(Position<Entry<K,V>> x){
 		Position<Entry<K,V>> y = parent(x);
 		Position<Entry<K,V>> z = parent(y);
@@ -72,18 +72,18 @@ public class BalanceableBinaryTree<K,V> extends LinkedBinaryTree<Entry<K,V>>{
 
 	/* ---- nested BSTNode class ---- */
 	protected static class BSTNode<E> extends Node<E>{
-		int aux = 0;
+		int height = 0;
 		
 		BSTNode(E e, Node<E> parent, Node<E> leftChild, Node<E> rightChild){
 			super(e, parent, leftChild, rightChild);
 		}
 		
-		public int getAux(){
-			return aux;
+		public int getHeight(){
+			return height;
 		}
 		
-		public void setAux(int value){
-			aux = value;
+		public void setHeight(int value){
+			height = value;
 		}
 	}
 }

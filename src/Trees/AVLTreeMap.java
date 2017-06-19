@@ -20,20 +20,20 @@ public class AVLTreeMap<K,V> extends TreeMap<K,V> {
 	
 	/* Returns the height of the given tree position */
 	protected int height(Position<Entry<K,V>> p){
-		return tree.getAux(p);
+		return tree.getHeight(p);
 	}
 	
 	/* Recomputes the height of the given position based on its children's heights */
 	protected void recomputeHeight(Position<Entry<K,V>> p){
-		tree.setAux(p, 1 + Math.max(height(left(p)), height(right(p))));
+		tree.setHeight(p, 1 + (Math.max(height(left(p)), height(right(p)))));
 	}
 	
 	/* Returns whether a position has balance factor between -1 and 1 inclusive */
 	protected boolean isBalanced(Position<Entry<K,V>> p){
-		return Math.abs(height(left(p)) - height(right(p))) <= 1;
+		return (Math.abs(height(left(p)) - height(right(p))) <= 1);
 	}
 	
-	/* Returns a child of p with height no smaller than that of the other child */
+	/* Returns a child of p with largest height or, if of equal size, the child with the same orientation */
 	protected Position<Entry<K,V>> tallerChild(Position<Entry<K,V>> p){
 		if (height(left(p)) > height(right(p))){
 			return left(p);							// clear winner
@@ -65,7 +65,7 @@ public class AVLTreeMap<K,V> extends TreeMap<K,V> {
 		do {
 			oldHeight = height(p);						// not yet recalculated if internal
 			if (!isBalanced(p)){						// imbalance detected
-				// perform trinode restructuring, setting p to resulting root,
+				// perform tri-node restructuring, setting p to resulting root,
 				// and recompute new local heights after the restructuring
 				p = tree.restructure(tallerChild(tallerChild(p)));
 				recomputeHeight(left(p));
@@ -87,6 +87,14 @@ public class AVLTreeMap<K,V> extends TreeMap<K,V> {
 		if (!isRoot(p)){
 			rebalance(parent(p));
 		}
+	}
+	
+	public static void main(String[] args){
+		AVLTreeMap<Integer,String>  test = new AVLTreeMap<>();
+		test.put(5, "Never");
+		test.put(6, "Stop");
+		test.remove(5);
+		System.out.println(test.size());
 	}
 }
 

@@ -37,7 +37,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 		tree.addRight(p, null);
 	}
 	
-	/* Returns the position in p's having given key (or else the terminal leaf) */
+	/* Returns the position in p having given key (or else the terminal leaf) */
 	private Position<Entry<K,V>> treeSearch(Position<Entry<K,V>> p, K key){
 		if(isExternal(p)){
 			return p;			// key not found; return the final leaf
@@ -66,7 +66,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 	
 	/* Adds entry or associates the given value with the given key, returning any overriden value */
 	public V put(K key, V value) throws IllegalArgumentException{
-		checkKey(key);						// may throw IllegalArgumentException 
+		checkKey(key);						// checks if key is "comparable" 
 		Entry<K,V> newEntry = new MapEntry<>(key, value);
 		Position<Entry<K,V>> p = treeSearch(root(), key);
 		if(isExternal(p)){					// key is new (not found in existing tree)
@@ -95,7 +95,8 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 				Position<Entry<K,V>> replacement = treeMax(left(p));
 				tree.set(p, replacement.getElement());
 				p = replacement;
-			} // now p has at most one child that is internal node
+			} 
+			// p has at most one child that is internal node (or both are leaf nodes)
 			Position<Entry<K,V>> leaf = (isExternal(left(p))) ? left(p) : right(p);
 			Position<Entry<K,V>> sib = tree.sibling(leaf);
 			tree.remove(leaf);
@@ -124,6 +125,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 	    Position<Entry<K,V>> walk = p;
 	    while (isInternal(walk))
 	      walk = left(walk);
+	    
 	    return parent(walk);              // we want the parent of the leaf
 	  }
 	
@@ -146,7 +148,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 		}
 		
 		while(!isRoot(p)){
-			if(p == tree.right(tree.parent(p))){
+			if(p == right(parent(p))){
 				return parent(p).getElement();		// parent has next lesser key
 			} else {
 				p = parent(p);
@@ -161,7 +163,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 		checkKey(key);						// may throw exception
 		Position<Entry<K,V>> p = treeSearch(root(), key);
 		
-		if(tree.isInternal(p) && isInternal(left(p))){
+		if(isInternal(p) && isInternal(left(p))){
 			return treeMax(left(p)).getElement();	// this is the predecessor to p
 			// otherwise we had a failed search, or match with no left child
 		} 
