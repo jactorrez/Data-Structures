@@ -22,25 +22,29 @@ public class RBTreeMap<K,V> extends TreeMap<K,V>{
 		super(comp);
 	}
 	
-	// we use the inherited aux field with convention that 0=black and 1=red
-	// (new leaves will be black by default, as aux=0)
+	// New leaves will be black by default, as color=0 for every new instance of an RBNode
 	
+	/* Check if given node is a black node */
 	private boolean isBlack(Position<Entry<K,V>> p){
 		return tree.getColor(p) == 0;
 	}
 	
+	/* Check if given node is red */
 	private boolean isRed(Position<Entry<K,V>> p){
 		return tree.getColor(p) == 1;
 	}
 	
+	/* Makes given node black */
 	private void makeBlack(Position<Entry<K,V>> p){
 		tree.setColor(p,0);
 	}
 	
+	/* Makes given node red */
 	private void makeRed(Position<Entry<K,V>> p){
 		tree.setColor(p,1);
 	}
 	
+	/* Alternative way to set color of a given node */
 	private void setColor(Position<Entry<K,V>> p, boolean toRed){
 		tree.setColor(p, toRed ? 1 : 0);
 	}
@@ -49,7 +53,7 @@ public class RBTreeMap<K,V> extends TreeMap<K,V>{
 	protected void rebalanceInsert(Position<Entry<K,V>> p){
 		if(!isRoot(p)){
 			makeRed(p);			// the new internal node is initially colored red
-			resolveRed(p);		// but this may cause a double-red problem
+			resolveRed(p); 		// but this may cause a double-red problem
 		}
 	}
 	
