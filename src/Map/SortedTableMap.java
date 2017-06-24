@@ -14,6 +14,11 @@ public class SortedTableMap<K,V> extends AbstractSortedMap<K,V>{
 		super();
 	}
 	
+	public SortedTableMap(int size){
+		super();
+		table = new ArrayList<MapEntry<K,V>>(size);
+	}
+	
 	public SortedTableMap(Comparator<K> comp){
 		super(comp);
 	}
@@ -71,6 +76,14 @@ public class SortedTableMap<K,V> extends AbstractSortedMap<K,V>{
 		
 		table.add(j, new MapEntry<K,V>(key,value));	// otherwise new
 		return null;
+	}
+	
+	/* Adds given entry to the table, returning any overriden entry if it exists */
+	public V putEntry(Entry<K,V> entry){
+		K key = entry.getKey();
+		V value = entry.getValue();
+		
+		return put(key, value);
 	}
 	
 	/* Removes the entry having key k (if any) and returns its associated value */

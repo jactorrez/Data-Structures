@@ -57,7 +57,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 	public V get(K key) throws IllegalArgumentException{
 		checkKey(key);										// may throw IllegalArgumentException
 		Position<Entry<K,V>> p = treeSearch(root(), key);
-		rebalanceAccess(p);									// hook for balanced tree subclasses
+		rebalanceAccess(p);									// hook for splay tree
 		if(isExternal(p)){									
 			return null;									// unsuccessful search
 		}
@@ -87,7 +87,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 		Position<Entry<K,V>> p = treeSearch(root(), key);
 		
 		if(isExternal(p)){					// key not found
-			rebalanceAccess(p);				// hook for balanced tree subclasses 
+			rebalanceAccess(p);				// hook for splay tree
 			return null;
 		} else {
 			V old = p.getElement().getValue();
