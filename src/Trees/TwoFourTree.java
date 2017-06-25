@@ -49,6 +49,41 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		return n.size() == 3;
 	}
 	
+	public boolean isExternal(TwoFourNode<K,V> n){
+		return (numChildren(n) == 0);
+	}
+	
+	public boolean isInternal(TwoFourNode<K,V> n){
+		return (numChildren(n) > 0);
+	}
+	
+	public int numChildren(TwoFourNode<K,V> n){
+		int amount =  0; 
+		
+		if(n.getLeft() != null){
+			amount++;
+		}
+		
+		if(n.getLeftMid() != null){
+			amount++;
+		}
+		
+		if(n.getMiddle() != null){
+			amount++;
+		}
+		
+		if(n.getRightMid() != null){
+			amount++;
+		}
+		
+		if(n.getRight() != null){
+			amount++;
+		}
+		
+		return amount;
+	}
+	
+	
 	
 	
 	/* ------ Functions to create a 2-node, 3-node, or 4-node node ------ */
