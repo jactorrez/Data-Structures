@@ -2,6 +2,7 @@ package Trees;
 
 import Map.SortedTableMap;
 import PriorityQueue.Entry;
+import Trees.TwoFourTree.TwoFourNode;
 
 
 public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
@@ -32,6 +33,20 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 	/* Returns the root Position in the tree (null if tree is empty) */
 	public Position<SortedTableMap<K,V>> root() throws IllegalArgumentException{
 		return root;
+	}
+	
+	/* Adds root to empty tree */
+	public void addRoot(TwoFourNode<K,V> node){
+		root = node;
+	}
+	
+	/* Changes root to given node, else if tree has no nodes, makes given node new root */
+	public void changeRoot(TwoFourNode<K,V> newRoot) {
+		if(size() > 0){
+			root = newRoot;
+		} else {
+			addRoot(newRoot);
+		}
 	}
 	
 	/* Tests if current node is a 2-node */
@@ -158,7 +173,7 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		}
 		
 		// Accessor methods 
-		
+
 		/* Get table of entries from node */
 		public SortedTableMap<K,V> getElement(){
 			return table;
@@ -211,6 +226,42 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 			return table;
 		}
 		
+		/* ----- Update methods ----- */
+		
+		/* Set left child of current node */
+		public void setLeft(TwoFourNode<K,V> n){
+			this.left = n;
+		}
+		
+		/* Set right child of current node */
+		public void setRight(TwoFourNode<K,V> n){
+			this.right = n;
+		}
+		
+		/* Set middle child of current node */
+		public void setMiddle(TwoFourNode<K,V> n){
+			if(size() == 2){
+				this.middle = n;
+			} 
+		}
+		
+		/* Set middle-left child of current node */
+		public void setLeftMid(TwoFourNode<K,V> n){
+			if(size() == 3){
+				this.middleLeft = n;
+			} else {
+				throw new IllegalArgumentException();
+			}
+		}
+		
+		/* Set middle-right child of current node */
+		public void setRightMid(TwoFourNode<K,V> n){
+			if(size() == 3){
+				this.middleRight = n;
+			} else {
+				throw new IllegalArgumentException();
+			}
+		}
 	}
 	
 }

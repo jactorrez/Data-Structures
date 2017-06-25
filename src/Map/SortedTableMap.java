@@ -65,7 +65,7 @@ public class SortedTableMap<K,V> extends AbstractSortedMap<K,V>{
 	}
 	
 	/* Returns the entry associated with the specified index (or else null) */
-	public Entry<K,V> getIndex(int i){
+	public MapEntry<K,V> getIndex(int i){
 		return table.get(i);
 	}
 	
