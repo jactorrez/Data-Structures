@@ -11,10 +11,12 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 	
 	protected TwoFourTree<K,V> tree = new TwoFourTree<>();
 	
+	/* Constructs an empty tree and uses the given Comparator */
 	public TwoFourTreeMap(Comparator<K> c){
 		super(c);
 	}
 	
+	/* Constructs an empty tree */
 	public TwoFourTreeMap(){
 		super();
 	}
@@ -46,6 +48,7 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		}
 	}
 	
+	/* Performs the split function on a 4-node to prevent/fix an overflow */
 	public TwoFourNode<K,V> split(TwoFourNode<K,V> node){
 		SortedTableMap<K,V> table = node.getTable();
 		
@@ -106,7 +109,6 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 	}
 	
 	/* Adds entry or associates the given value with the given key, returning any overridden value */
-	
 	public V put(K key, V value){
 		TwoFourNode<K,V> root = (TwoFourNode<K,V>) tree.root();
 		TwoFourNode<K,V> entrySlot = (TwoFourNode<K,V>) treeSearch(root, key, true);
@@ -115,7 +117,7 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		return nodeValue;
 	}
 	
-	
+	/* Utility function used to compare a given key with the entries of a 2-node */
 	public TwoFourNode<K,V> compare2Node(TwoFourNode<K,V> node, K key){
 		Entry<K,V> firstEntry = node.getTable().firstEntry();
 		
@@ -133,6 +135,7 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 
 	}
 	
+	/* Utility function used to compare a given key with the entries of a 3-node */
 	public TwoFourNode<K,V> compare3Node(TwoFourNode<K,V> node, K key){
 		
 		SortedTableMap<K,V> table = node.getTable();
@@ -156,6 +159,7 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		return null;
 	}
 	
+	/* Utility function used to compare a given key with the entries of a 4-node */
 	public TwoFourNode<K,V> compare4Node(TwoFourNode<K,V> node, K key){	
 		SortedTableMap<K,V> table = node.getTable();
 
@@ -182,66 +186,82 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		return null;
 	}
 	
+	/* Tests if the given node is a 2-node */
 	public boolean is2Node(TwoFourNode<K,V> node){
 		return tree.is2Node(node);
 	}
 	
+	/* Tests if the given node is a 3-node */
 	public boolean is3Node(TwoFourNode<K,V> node){
 		return tree.is3Node(node);
 	}
 	
+	/* Tests if the given node is a 4-node */
 	public boolean is4Node(TwoFourNode<K,V> node){
 		return tree.is4Node(node);
 	}
 	
+	/* Tests if the given node is external */
 	public boolean isExternal(TwoFourNode<K,V> node){
 		return tree.isExternal(node);
 	}
 	
+	/* Tests if the given node is internal */
 	public boolean isInternal(TwoFourNode<K,V> node){
 		return tree.isInternal(node);
 	}
 	
+	/* Retrieves the parent child of the given node */
 	public TwoFourNode<K,V> parent(TwoFourNode<K,V> node){
 		return node.getParent();
 	}
 	
+	/* Retrieves the left child of the given node */
 	public TwoFourNode<K,V> left(TwoFourNode<K,V> node){
 		return node.getLeft();
 	}
 	
+	/* Retrieves the right child of the given node */
 	public TwoFourNode<K,V> right(TwoFourNode<K,V> node){
 		return node.getRight();
 	}
 	
+	/* Retrieves the middle child of the given node */
 	public TwoFourNode<K,V> middle(TwoFourNode<K,V> node){
 		return node.getMiddle();
 	}
 	
+	/* Retrieves the left-middle child of the given node */
 	public TwoFourNode<K,V> leftMiddle(TwoFourNode<K,V> node){
 		return node.getLeftMid();
 	}
 	
+	/* Retrieves the right-middle child of the given node */
 	public TwoFourNode<K,V> rightMiddle(TwoFourNode<K,V> node){
 		return node.getRightMid();
 	}
 	
+	/* Tests if the given node is the root of the tree */
 	public boolean isRoot(TwoFourNode<K,V> node){
 		return (tree.root() == node);
 	}
 	
+	/* Tests if the given node is the left child of the given parent node */
 	public boolean isLeftChild(TwoFourNode<K,V> parent, TwoFourNode<K,V> child){
 		return (parent.getLeft() == child);
 	}
 	
+	/* Tests if the given node is the right child of the given parent node */
 	public boolean isRightChild(TwoFourNode<K,V> parent, TwoFourNode<K,V> child){
 		return (parent.getRight() == child);
 	}
 	
+	/* Tests if the given node is the middle child of the given parent node */
 	public boolean isMiddleChild(TwoFourNode<K,V> parent, TwoFourNode<K,V> child){
 		return (parent.getMiddle() == child);
 	}
 	
+	/* Test utilities */
 	public static void main(String[] args){
 		
 	}

@@ -64,7 +64,7 @@ public class TreeMap<K,V> extends AbstractSortedMap<K,V>{
 		return p.getElement().getValue();					// match found
 	}
 	
-	/* Adds entry or associates the given value with the given key, returning any overriden value */
+	/* Adds entry or associates the given value with the given key, returning any overridden value */
 	public V put(K key, V value) throws IllegalArgumentException{
 		checkKey(key);						// checks if key is "comparable" 
 		Entry<K,V> newEntry = new MapEntry<>(key, value);
