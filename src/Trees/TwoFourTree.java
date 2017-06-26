@@ -228,20 +228,28 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		
 		/* ----- Update methods ----- */
 		
+		/* Set parent of current node */
+		public void setParent(TwoFourNode<K,V> n){
+			this.parent = n;
+		}
+		
 		/* Set left child of current node */
 		public void setLeft(TwoFourNode<K,V> n){
 			this.left = n;
+			n.setParent(this);
 		}
 		
 		/* Set right child of current node */
 		public void setRight(TwoFourNode<K,V> n){
 			this.right = n;
+			n.setParent(this);
 		}
 		
 		/* Set middle child of current node */
 		public void setMiddle(TwoFourNode<K,V> n){
 			if(size() == 2){
 				this.middle = n;
+				n.setParent(this);
 			} 
 		}
 		
@@ -249,6 +257,7 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		public void setLeftMid(TwoFourNode<K,V> n){
 			if(size() == 3){
 				this.middleLeft = n;
+				n.setParent(this);
 			} else {
 				throw new IllegalArgumentException();
 			}
@@ -258,6 +267,7 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		public void setRightMid(TwoFourNode<K,V> n){
 			if(size() == 3){
 				this.middleRight = n;
+				n.setParent(this);
 			} else {
 				throw new IllegalArgumentException();
 			}

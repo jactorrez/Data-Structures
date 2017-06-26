@@ -29,8 +29,6 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 			node = split(node);
 		}
 
-		SortedTableMap<K,V> table = node.getTable();
-		
 		if(is2Node(node)){
 			nextNode = compare2Node(node, key);
 			
@@ -92,7 +90,6 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 				if(isLeftChild(parentNode, node)){
 					parentNode.setLeft(newLeft);
 					parentNode.setLeftMid(newRight);
-
 				// check if current node is right-most child
 				} else if(isMiddleChild(parentNode, node)){
 					parentNode.setLeftMid(newLeft);
@@ -103,10 +100,21 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 					parentNode.setRight(newRight);
 				}
 			}
-			
+
 			return parentNode;
 		}
 	}
+	
+	/* Adds entry or associates the given value with the given key, returning any overridden value */
+	
+	public V put(K key, V value){
+		TwoFourNode<K,V> root = (TwoFourNode<K,V>) tree.root();
+		TwoFourNode<K,V> entrySlot = (TwoFourNode<K,V>) treeSearch(root, key, true);
+		SortedTableMap<K,V> nodeTable = entrySlot.getTable();
+		V nodeValue = nodeTable.put(key, value);
+		return nodeValue;
+	}
+	
 	
 	public TwoFourNode<K,V> compare2Node(TwoFourNode<K,V> node, K key){
 		Entry<K,V> firstEntry = node.getTable().firstEntry();
@@ -232,6 +240,10 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 	
 	public boolean isMiddleChild(TwoFourNode<K,V> parent, TwoFourNode<K,V> child){
 		return (parent.getMiddle() == child);
+	}
+	
+	public static void main(String[] args){
+		
 	}
 
 }
