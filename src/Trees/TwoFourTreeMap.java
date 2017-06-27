@@ -110,8 +110,18 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		@SuppressWarnings("unchecked")
 		TwoFourNode<K,V> entrySlot = (TwoFourNode<K,V>) treeSearch(getRoot(), key, true);
 		SortedTableMap<K,V> nodeTable = entrySlot.getTable();
+		int oldChildAmount = entrySlot.getChildAmount();
 		V nodeValue = nodeTable.put(key, value);
+		if(isDeepInternal(entrySlot)){
+			int newChildAmount = entrySlot.getChildAmount();
+			checkChildProp(oldChildAmount, newChildAmount);
+		}
+
 		return nodeValue;
+	}
+	
+	public void checkChildProp(int oldAmount, int newAmount){
+		int diff = newAmount - oldAmount;
 	}
 	
 	/* Returns the value associated with the specified key (or else null) */
@@ -123,12 +133,12 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 	}
 	
 	/* Removes the entry with the given key from the node */
-	public V remove(K key){
-		TwoFourNode<K,V> foundNode = (TwoFourNode<K,V>) treeSearch(getRoot(), key, false);
-		if(isDeepInternal(foundNode) && foundNode.contains(key)){
-			
-		}
-	}
+//	public V remove(K key){
+//		TwoFourNode<K,V> foundNode = (TwoFourNode<K,V>) treeSearch(getRoot(), key, false);
+//		if(isDeepInternal(foundNode) && foundNode.contains(key)){
+//			if(foundNode)
+//		}
+//	}
 	
 	/* Tests if given node is deepest internal node (before reaching an external node) */
 	public boolean isDeepInternal(TwoFourNode<K,V> node){

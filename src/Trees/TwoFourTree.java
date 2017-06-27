@@ -156,12 +156,12 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		// Instance fields 
 		private SortedTableMap<K,V> table = new SortedTableMap<>(3);	// reference to collection of 
 		
-		private TwoFourNode<K,V> parent;						// reference to parent
-		private TwoFourNode<K,V> left;							// reference to left child
-		private TwoFourNode<K,V> right;							// reference to right child
-		private TwoFourNode<K,V> middle;						// reference to middle child (for 2 node)
-		private TwoFourNode<K,V> middleLeft;					// reference to left-middle child (for 4 node)
-		private TwoFourNode<K,V> middleRight;					// reference to right-middle child (for 4 node)
+		private TwoFourNode<K,V> parent = null;						// reference to parent
+		private TwoFourNode<K,V> left = null;							// reference to left child
+		private TwoFourNode<K,V> right = null;							// reference to right child
+		private TwoFourNode<K,V> middle = null;						// reference to middle child (for 2 node)
+		private TwoFourNode<K,V> middleLeft = null;					// reference to left-middle child (for 4 node)
+		private TwoFourNode<K,V> middleRight =null;					// reference to right-middle child (for 4 node)
 		
 		/* --- Constructors --- */
 		
@@ -203,6 +203,16 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		}
 		
 		// Accessor methods 
+		
+		/* Returns the amount of children a node *should* have */
+		public int getChildAmount(){
+			return size() + 1;
+		}
+		
+		/* Returns the amount of children a node *should* have */
+		public int getEntryAmount(){
+			return getChildAmount() - 1;
+		}
 		
 		/* Get child at the given position */
 		public TwoFourNode<K,V> getChild(int i){
