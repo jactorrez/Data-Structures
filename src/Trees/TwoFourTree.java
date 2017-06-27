@@ -178,24 +178,24 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		public TwoFourNode<K,V> getChild(int i){
 			TwoFourNode<K,V> test = this;
 			
-			if(i == 1){
+			if(i == 0){
 				return this.getLeft();
 			} else if(is2Node()){
-				if(i == 2){
+				if(i == 1){
 					return this.getRight();
 				}
 			} else if(is3Node()){
-				if(i == 2){
+				if(i == 1){
 					return this.getMiddle();
-				} else if(i == 3){
+				} else if(i == 2){
 					return this.getRight();
 				}
 			} else if(is4Node()){
-				if(i == 2){
+				if(i == 1){
 					return this.getLeftMid();
-				} else if(i == 3){
+				} else if(i == 2){
 					return this.getRightMid();
-				} else if(i == 4){
+				} else if(i == 3){
 					return this.getRight();
 				}
 			} 

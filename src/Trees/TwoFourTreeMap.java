@@ -30,16 +30,9 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		} else if(is4Node(node) && isInsert){
 			node = split(node);
 		}
-
-		if(is2Node(node)){
-			nextNode = compare2Node(node, key);
-			
-		} else if(is3Node(node)){
-			nextNode = compare3Node(node, key);
-			
-		} else if(is4Node(node)){
-			nextNode = compare4Node(node, key);
-		}
+		
+		/* Returns node to inspect next. If key is found in current node, current node is returned */
+		nextNode = compareEntries(node, key);
 		
 		if(nextNode != node){
 			return treeSearch(nextNode, key, isInsert);
@@ -117,94 +110,32 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		return nodeValue;
 	}
 	
-	/* Utility function used to compare a given key with the entries of a 2-node */
-	public TwoFourNode<K,V> compare2Node(TwoFourNode<K,V> node, K key){
-		Entry<K,V> firstEntry = node.getTable().firstEntry();
+	public TwoFourNode<K,V> compareEntries(TwoFourNode<K,V> node, K key){
+
+		SortedTableMap<K,V> table = node.getTable();
+		int pairLimit = table.size() - 1;
 		
-		int compare = compare(key, firstEntry);
+		int compareFirst = compare(key, table.firstEntry());
+		int compareLast = compare(key, table.lastEntry());
 		
-		if(compare == 0){
-			return node;
-		} else if(compare < 0){
+		if(compareFirst < 0){
 			return node.getLeft();
-		} else if(compare > 0){
+		} else if(compareLast > 0){
 			return node.getRight();
 		} else {
-			return null;
-		}
-
-	}
-	
-	public TwoFourNode<K,V> compare(TwoFourNode<K,V> node, K key){
-
-		SortedTableMap<K,V> table = node.getTable();
-		int size = table.size() - 1;
-		
-		Entry<K,V> firstEntry = table.firstEntry();
-		Entry<K,V> lastEntry = table.lastEntry();
-		
-		for(int x = 0; x < size; x++){
-			K k1 = table.getIndex(x).getKey();
-			K k2 = table.getIndex(x+1).getKey(); 
-			
-			int k1Comp = compare(key, k1);
-			int k2Comp = compare(key, k2);
-		
-			if((k1Comp > 0) && (k2Comp < 0)){
-				return node.getChild(x+1);
+			for(int x = 0; x < pairLimit; x++){
+				K k1 = table.getIndex(x).getKey();
+				K k2 = table.getIndex(x+1).getKey(); 
+				
+				int k1Comp = compare(key, k1);
+				int k2Comp = compare(key, k2);
+				if(k1Comp == 0 || k2Comp == 0){
+					return node;
+				} else if((k1Comp > 0) && (k2Comp < 0)){
+					return node.getChild(x+1);
+				}
 			}
 		}
-		
-		return null;
-	}
-	
-	/* Utility function used to compare a given key with the entries of a 3-node */
-	public TwoFourNode<K,V> compare3Node(TwoFourNode<K,V> node, K key){
-		
-		SortedTableMap<K,V> table = node.getTable();
-		
-
-		for(int i = 0; i < 2; i++){
-			int compare = compare(key, table.getIndex(i));
-			
-			if(compare == 0){
-				return node; 
-			} else if((i == 0) && (compare < 0)){
-				return node.getLeft();
-			} else if((i == 1) && (compare < 0)){
-				return node.getMiddle();
-			} else if((i == 1) && (compare > 0)){
-				return node.getRight();
-			}
-		}
-
-		return null;
-	}
-	
-	/* Utility function used to compare a given key with the entries of a 4-node */
-	public TwoFourNode<K,V> compare4Node(TwoFourNode<K,V> node, K key){	
-		SortedTableMap<K,V> table = node.getTable();
-
-		for(int i = 0; i < 3; i++){
-			int compare = compare(key, table.getIndex(i));
-			
-			if(compare == 0){
-				return node; 
-			} else if((i == 0) && (compare < 0)){
-				return node.getLeft();
-			} else if((i == 0) && (compare > 0)){
-				continue;
-			} else if((i == 1) && (compare < 0)){
-				return node.getLeftMid();
-			} else if((i == 1) && (compare > 0)){
-				continue;
-			} else if((i == 2) && (compare > 0)){
-				return node.getRight();
-			} else if((i == 2) && (compare < 0)){
-				return node.getRightMid();
-			}
-		}
-		
 		return null;
 	}
 	
