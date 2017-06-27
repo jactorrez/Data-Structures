@@ -26,7 +26,7 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		TwoFourNode<K,V> nextNode = null;
 		
 		if(isExternal(node)){
-			return parent(node);				// key not found, return empty external node
+			return parent(node);				// key not found, return parent node 
 		} else if(is4Node(node) && isInsert){
 			node = split(node);
 		}
@@ -135,10 +135,34 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 
 	}
 	
+	public TwoFourNode<K,V> compare(TwoFourNode<K,V> node, K key){
+
+		SortedTableMap<K,V> table = node.getTable();
+		int size = table.size() - 1;
+		
+		Entry<K,V> firstEntry = table.firstEntry();
+		Entry<K,V> lastEntry = table.lastEntry();
+		
+		for(int x = 0; x < size; x++){
+			K k1 = table.getIndex(x).getKey();
+			K k2 = table.getIndex(x+1).getKey(); 
+			
+			int k1Comp = compare(key, k1);
+			int k2Comp = compare(key, k2);
+		
+			if((k1Comp > 0) && (k2Comp < 0)){
+				return node.getChild(x+1);
+			}
+		}
+		
+		return null;
+	}
+	
 	/* Utility function used to compare a given key with the entries of a 3-node */
 	public TwoFourNode<K,V> compare3Node(TwoFourNode<K,V> node, K key){
 		
 		SortedTableMap<K,V> table = node.getTable();
+		
 
 		for(int i = 0; i < 2; i++){
 			int compare = compare(key, table.getIndex(i));
@@ -147,8 +171,6 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 				return node; 
 			} else if((i == 0) && (compare < 0)){
 				return node.getLeft();
-			} else if((i == 0) && (compare > 0)){
-				continue;
 			} else if((i == 1) && (compare < 0)){
 				return node.getMiddle();
 			} else if((i == 1) && (compare > 0)){

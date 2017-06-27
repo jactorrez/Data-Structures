@@ -93,6 +93,13 @@ public class SortedTableMap<K,V> extends AbstractSortedMap<K,V>{
 		return null;
 	}
 	
+	/* Adds the given entry to the map */
+	public V putEntry(Entry<K,V> entry){
+		K key = entry.getKey();
+		V value = entry.getValue();
+		return put(key, value);
+	}
+	
 	/* Removes the entry having key k (if any) and returns its associated value */
 	public V remove(K key){
 		int j = findIndex(key);

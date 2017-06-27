@@ -173,7 +173,36 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		}
 		
 		// Accessor methods 
-
+		
+		/* Get child at the given position */
+		public TwoFourNode<K,V> getChild(int i){
+			TwoFourNode<K,V> test = this;
+			
+			if(i == 1){
+				return this.getLeft();
+			} else if(is2Node()){
+				if(i == 2){
+					return this.getRight();
+				}
+			} else if(is3Node()){
+				if(i == 2){
+					return this.getMiddle();
+				} else if(i == 3){
+					return this.getRight();
+				}
+			} else if(is4Node()){
+				if(i == 2){
+					return this.getLeftMid();
+				} else if(i == 3){
+					return this.getRightMid();
+				} else if(i == 4){
+					return this.getRight();
+				}
+			} 
+			
+			return null;
+		}
+		
 		/* Get table of entries from node */
 		public SortedTableMap<K,V> getElement(){
 			return table;
@@ -219,6 +248,21 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 			}
 			
 			return null;
+		}
+		
+		/* Tests if current node is a 2-node */
+		public boolean is2Node(){
+			return this.size() == 1;
+		}
+
+		/* Tests if current node is a 3-node */
+		public boolean is3Node(){
+			return this.size() == 2;
+		}
+
+		/* Tests if current node is a 4-node */
+		public boolean is4Node(){
+			return this.size() == 3;
 		}
 		
 		/* Get table */
