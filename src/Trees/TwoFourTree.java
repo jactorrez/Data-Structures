@@ -2,8 +2,9 @@ package Trees;
 
 import Map.SortedTableMap;
 import PriorityQueue.Entry;
+import Trees.LinkedBinaryTree.Node;
 import Trees.TwoFourTree.TwoFourNode;
-
+import Map.AbstractMap.MapEntry;
 
 public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 	
@@ -18,10 +19,7 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		if(!(p instanceof TwoFourNode))
 			throw new IllegalArgumentException("Not valid position type");
 		TwoFourNode<K,V> node = (TwoFourNode<K,V>) p;
-		
-		if(node.getParent() == node)
-			throw new IllegalArgumentException("p is no longer in the tree");
-		
+
 		return node;
 	}
 		
@@ -36,16 +34,51 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 	}
 	
 	/* Adds root to empty tree */
-	public void addRoot(TwoFourNode<K,V> node){
-		root = node;
+	public TwoFourNode<K,V> addRoot(K key, V value){
+		root = create2Node(new MapEntry<K,V>(key, value), null, null, null);
+		addLeft(root, null);		// add new sentinel leaves as children 
+		addRight(root, null);
+		
+		size++;
+		return root;
+	}
+	
+	/*
+	 * Creates a new node storing element e and makes it node p's left child
+	 */
+	public Position<SortedTableMap<K,V>> addLeft(Position<SortedTableMap<K,V>> p, Entry<K,V> e) throws IllegalArgumentException{
+		TwoFourNode<K,V> parent = validate(p);
+		
+		if(parent.getLeft() != null){
+			throw new IllegalArgumentException("The node already has a left child");
+		}
+		
+		TwoFourNode<K,V> child = create2Node(e, parent, null, null);
+		parent.setLeft(child);
+		size++;
+		return child;
+	}
+	
+	/*
+	 * Creates a new node storing element e and makes it node p's right child
+	 */
+	public Position<SortedTableMap<K,V>> addRight(Position<SortedTableMap<K,V>>  p, Entry<K,V> e) throws IllegalArgumentException {
+		TwoFourNode<K,V> parent = validate(p);
+		
+		if(parent.getRight() != null){
+			throw new IllegalArgumentException("The node already has a right child");
+		}
+		
+		TwoFourNode<K,V> child = create2Node(e, parent, null, null);
+		parent.setRight(child);
+		size++;
+		return child;
 	}
 	
 	/* Changes root to given node, else if tree has no nodes, makes given node new root */
 	public void changeRoot(TwoFourNode<K,V> newRoot) {
 		if(size() > 0){
 			root = newRoot;
-		} else {
-			addRoot(newRoot);
 		}
 	}
 	
@@ -97,10 +130,7 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		
 		return amount;
 	}
-	
-	
-	
-	
+		
 	/* ------ Functions to create a 2-node, 3-node, or 4-node node ------ */
 	
 	/* Create 2-node */ 
@@ -176,7 +206,6 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 		
 		/* Get child at the given position */
 		public TwoFourNode<K,V> getChild(int i){
-			TwoFourNode<K,V> test = this;
 			
 			if(i == 0){
 				return this.getLeft();
@@ -314,6 +343,14 @@ public class TwoFourTree<K,V> extends AbstractTree<SortedTableMap<K,V>>{
 				n.setParent(this);
 			} else {
 				throw new IllegalArgumentException();
+			}
+		}
+		
+		public boolean contains(K key){
+			if(this.table.get(key) != null){
+				return true;
+			} else {
+				return false;
 			}
 		}
 	}

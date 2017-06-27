@@ -22,12 +22,12 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 	}
 	
 	/* Searches through tree for a given key, starting at the given node */
-	public Position<SortedTableMap<K,V>> treeSearch(TwoFourNode<K,V> node, K key, boolean isInsert){
+	public Position<SortedTableMap<K,V>> treeSearch(TwoFourNode<K,V> node, K key, boolean rebalance){
 		TwoFourNode<K,V> nextNode = null;
 		
 		if(isExternal(node)){
 			return parent(node);				// key not found, return parent node 
-		} else if(is4Node(node) && isInsert){
+		} else if(is4Node(node) && rebalance){
 			node = split(node);
 		}
 		
@@ -35,7 +35,7 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 		nextNode = compareEntries(node, key);
 		
 		if(nextNode != node){
-			return treeSearch(nextNode, key, isInsert);
+			return treeSearch(nextNode, key, rebalance);
 		} else{
 			return node;
 		}
@@ -96,18 +96,47 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 					parentNode.setRight(newRight);
 				}
 			}
-
 			return parentNode;
 		}
 	}
 	
 	/* Adds entry or associates the given value with the given key, returning any overridden value */
 	public V put(K key, V value){
-		TwoFourNode<K,V> root = (TwoFourNode<K,V>) tree.root();
-		TwoFourNode<K,V> entrySlot = (TwoFourNode<K,V>) treeSearch(root, key, true);
+		if(tree.isEmpty()){
+			tree.addRoot(key, value);
+			
+			return value;
+		}
+		@SuppressWarnings("unchecked")
+		TwoFourNode<K,V> entrySlot = (TwoFourNode<K,V>) treeSearch(getRoot(), key, true);
 		SortedTableMap<K,V> nodeTable = entrySlot.getTable();
 		V nodeValue = nodeTable.put(key, value);
 		return nodeValue;
+	}
+	
+	/* Returns the value associated with the specified key (or else null) */
+	public V get(K key){
+		TwoFourNode<K,V> foundNode = (TwoFourNode<K,V>) treeSearch(getRoot(), key, true);
+		SortedTableMap<K,V> nodeTable = foundNode.getTable();
+		V nodeValue = nodeTable.get(key);
+		return nodeValue;
+	}
+	
+	/* Removes the entry with the given key from the node */
+	public V remove(K key){
+		TwoFourNode<K,V> foundNode = (TwoFourNode<K,V>) treeSearch(getRoot(), key, false);
+		if(isDeepInternal(foundNode) && foundNode.contains(key)){
+			
+		}
+	}
+	
+	/* Tests if given node is deepest internal node (before reaching an external node) */
+	public boolean isDeepInternal(TwoFourNode<K,V> node){
+		if(isExternal(node.getLeft())){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public TwoFourNode<K,V> compareEntries(TwoFourNode<K,V> node, K key){
@@ -137,6 +166,10 @@ public class TwoFourTreeMap<K,V> extends AbstractSortedMap<K,V>{
 			}
 		}
 		return null;
+	}
+	
+	public TwoFourNode<K,V> getRoot(){
+		return (TwoFourNode<K,V>) tree.root();
 	}
 	
 	/* Tests if the given node is a 2-node */

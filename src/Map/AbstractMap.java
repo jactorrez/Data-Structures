@@ -65,7 +65,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V>{
 	}
 
 	// ---- nested MapEntry class ---- //
-	protected static class MapEntry<K,V> implements Entry<K,V>{
+	public static class MapEntry<K,V> implements Entry<K,V>{
 		private K k; 
 		private V v;
 		
