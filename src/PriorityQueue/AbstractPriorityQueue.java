@@ -19,7 +19,7 @@ public abstract class AbstractPriorityQueue<K,V> implements PriorityQueue<K,V>{
 	/*
 	 * Method for comparing two entries according to key
 	 */
-	protected int compare(Entry<K,V> a, Entry<K,V> b){
+	public int compare(Entry<K,V> a, Entry<K,V> b){
 		return comp.compare(a.getKey(), b.getKey());
 	}
 	

@@ -3,51 +3,68 @@ package PriorityQueue;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-/* An implementation of a priority queue using an array-based heap */
+/* An implementation of a priority queue using an array-based min-heap */
 public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V>{
 	
 	/* primary collection of priority queue entries */
-	protected ArrayList<Entry<K,V>> heap = new ArrayList();
+	public ArrayList<Entry<K,V>> heap;
 	
 	/* Creates an empty priority queue based on the natural ordering of its keys */
 	public HeapPriorityQueue(){
 		super();
+		heap = new ArrayList<Entry<K,V>>();
+	}
+	
+	public HeapPriorityQueue(ArrayList<Entry<K,V>> arr){
+		super();
+		heap = arr;
+		buildHeap(heap);
 	}
 	
 	/* Creates an empty priority queue using the given comparator to order keys */
 	public HeapPriorityQueue(Comparator<K> comp){
 		super(comp);
+		heap = new ArrayList<Entry<K,V>>();
+	}
+	
+	/* Creates a binary heap given a filled array */
+	public void buildHeap(ArrayList<Entry<K,V>> a){
+		int heapSize = heap.size();
+		for(int i = heapSize / 2; i >= 0; i--){
+			downheap(i);
+		}
+		
 	}
 	
 	// protected utilities
 	
 	/* Returns parent of item in index i */
-	protected int parent(int i){		
+	public int parent(int i){		
 		return (i - 1) / 2;
 	}
 	
 	/* Returns left child of item in index i */
-	protected int left(int i){
+	public int left(int i){
 		return 2*i + 1;
 	}
 	
 	/* Returns right child of item in index i */
-	protected int right(int i){
+	public int right(int i){
 		return 2*i + 2;
 	}
 	
 	/* Tests whether item at index i has a left child */
-	protected boolean hasLeft(int i){
+	public boolean hasLeft(int i){
 		return left(i) < heap.size();
 	}
 	
 	/* Tests whether item at index i has a right child */
-	protected boolean hasRight(int i){
+	public boolean hasRight(int i){
 		return right(i) < heap.size();
 	}
 	
 	/* Exchanges the entries at indices i and j of the array list */
-	protected void swap(int i, int j){
+	public void swap(int i, int j){
 		Entry<K,V> temp = heap.get(i);
 		heap.set(i, heap.get(j));
 		heap.set(j, temp);
@@ -66,7 +83,7 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V>{
 	}
 	
 	/* Moves the entry at index i lower, if necessary, to restore the heap property */
-	protected void downheap(int i){
+	public void downheap(int i){
 		while(hasLeft(i)){
 			int leftIndex = left(i);
 			int smallChildIndex = leftIndex;

@@ -47,7 +47,7 @@ public class HeapAdaptablePriorityQueue<K,V> extends HeapPriorityQueue<K,V>{
 	}
 	
 	/* Exchanges the entries at indices i and j of the array list */
-	protected void swap(int i, int j){
+	public void swap(int i, int j){
 		super.swap(i, j);
 		((AdaptablePQEntry<K,V>) heap.get(i)).setIndex(i);
 		((AdaptablePQEntry<K,V>) heap.get(j)).setIndex(j);
