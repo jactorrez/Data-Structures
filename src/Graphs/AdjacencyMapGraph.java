@@ -74,11 +74,11 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
 		return edge.getEndpoints();
 	}
 	
-	
 	/* Returns the vertex that is opposite vertex v on edge e */
 	public Vertex<V> opposite(Vertex<V> v, Edge<E> e) throws IllegalArgumentException{
 		InnerEdge<E> edge = validate(e);
 		Vertex<V>[] endpoints = edge.getEndpoints();
+		
 		if (endpoints[0] == v){
 			return endpoints[1];
 		} else if (endpoints[1] == v){
@@ -198,7 +198,7 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
     		return incoming;
     	}
     	
-    	 /** Validates that this vertex instance belongs to the given graph. */
+    	 /* Validates that this vertex instance belongs to the given graph. */
         public boolean validate(Graph<V,E> graph) {
           return (AdjacencyMapGraph.this == graph && pos != null);
         }
@@ -211,7 +211,7 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
     	private Position<Edge<E>> pos;
     	private Vertex<V>[] endpoints;
     	
-    	/* Constructor InnerEdge instance from u to v, storing the given element */
+    	/* Construct InnerEdge instance connecting u to v, storing the given element */
     	public InnerEdge(Vertex<V> u, Vertex<V> v, E elem){
     		element = elem;
     		endpoints = (Vertex<V>[]) new Vertex[]{u,v};	// array of length 2
@@ -232,11 +232,12 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
     		pos = p;
     	}
     	
+    	/* Retrieves the position of this edge within the graph's vertex list */
     	public Position<Edge<E>> getPosition(){
     		return pos;
     	}
     	
-    	/** Validates that this edge instance belongs to the given graph. */
+    	/* Validates that this edge instance belongs to the given graph. */
         public boolean validate(Graph<V,E> graph) {
           return AdjacencyMapGraph.this == graph && pos != null;
         }
