@@ -56,6 +56,9 @@ public interface Graph<V,E> {
 	/* Inserts and returns a new edge between vertices u and v, storing given element */
 	Edge<E> insertEdge(Vertex<V> u, Vertex<V> v, E element) throws IllegalArgumentException;
 	
+	/* Returns the edge from u to v, or null if they are not adjacent */
+	Edge<E> getEdge(Vertex<V> u, Vertex<V> v);
+	
 	/* Removes a vertex and all its incident edges from the graph */
 	void removeVertex(Vertex<V> v) throws IllegalArgumentException;
 	

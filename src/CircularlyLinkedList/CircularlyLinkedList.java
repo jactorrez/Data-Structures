@@ -3,7 +3,7 @@ package CircularlyLinkedList;
 public class CircularlyLinkedList<E> {
 	
 	// instance variables 
-	private Node<E> tail = null; 	// we store head (but not head)
+	private Node<E> tail = null; 	// we store tail (but not head)
 	private int size = 0;			// number of nodes in the list
 	
 	// constructor
