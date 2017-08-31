@@ -80,6 +80,7 @@ public class SList<T> {
 	
 	public void removeFirst(){
 		head = head.next;
+		size--;
 	}
 	
 	/*
