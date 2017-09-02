@@ -7,13 +7,19 @@ import java.util.Random;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 	
-	private int size; 
+	private int size = 0; 
 	private QueueNode head;
 	private QueueNode tail;
 	
 	public RandomizedQueue(){
-		head = tail =null;
-		size = 0;
+		head = tail = null;
+	}
+	
+	public RandomizedQueue(Item[] items){
+		
+		for(int i = 0; i < items.length; i++){
+			this.enqueue(items[i]);
+		}
 	}
 	
 	public boolean isEmpty(){
