@@ -9,8 +9,8 @@ import java.util.NoSuchElementException;
  */
 public class Deque<Item> implements Iterable<Item>{
 	// instance variables
-	public int size;
-	public ListNode sentinel;
+	private int size;
+	private ListNode sentinel;
 	
 	// constructor 
 	public Deque(){
