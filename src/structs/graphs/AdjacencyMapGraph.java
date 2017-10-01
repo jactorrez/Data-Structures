@@ -5,7 +5,7 @@ import structs.lists.Position;
 import structs.maps.Map;
 import structs.maps.ProbeHashMap;
 
-public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
+public abstract class AdjacencyMapGraph<V,E> implements Graph<V,E>{
 	
 	// Signals whether graph is directed or undirected
 	private boolean isDirected;
@@ -88,12 +88,12 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
 	}
 	
 	/* Inserts and returns a new vertex with the given element */
-	public Vertex<V> insertVertex(V element){
-		InnerVertex v = new InnerVertex(element, isDirected);
+	public Vertex<V> insertVertex(V val){
+		InnerVertex v = new InnerVertex(val, isDirected);
 		v.setPosition(vertices.addLast(v));
 		return v;
 	}
-	
+
 	/* Inserts and returns a new edge between u and v, storing given element */
 	public Edge<E> insertEdge(Vertex<V> u, Vertex<V> v, E element) throws IllegalArgumentException{
 		if(getEdge(u,v) == null){
@@ -123,6 +123,7 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
 		
 		// remove this vertex from the list of vertices
 		vertices.remove(vert.getPosition());
+		vert.setPosition(null); 		// invalidates the edges
 	}
 	
     /** Removes an edge from the graph. */
@@ -150,10 +151,14 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
       if (!edge.validate(this)) throw new IllegalArgumentException("Invalid edge");
       return edge;
     }
+    
+    public boolean isDirected(){
+    	return isDirected;
+    }
 	// ------ Nested classes -------
     
     /* A vertex of an adjacency map graph representation */
-    private class InnerVertex implements Vertex<V> {
+    protected class InnerVertex implements Vertex<V> {
     	private V element; 
     	private Position<Vertex<V>> pos;
     	private Map<Vertex<V>, Edge<E>> outgoing, incoming;
@@ -162,11 +167,7 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
     	public InnerVertex(V elem, boolean graphIsDirected){
     		element = elem;
     		outgoing = new ProbeHashMap<>();
-    		if(graphIsDirected){
-    			incoming = new ProbeHashMap<>();
-    		} else{
-    			incoming = outgoing;	// if undirected, alias outgoing map 
-    		}
+    		incoming = isDirected ? new ProbeHashMap<>() : outgoing;
     	}	
     	
     	/* Returns the element associated with the vertex */
@@ -201,8 +202,8 @@ public class AdjacencyMapGraph<V,E> implements Graph<V,E>{
     }
     // ------ end of vertex class ------- 
     
-    /* An edge between two vertices */
-    private class InnerEdge implements Edge<E> {
+    /* --- An edge between two vertices --- */
+    protected class InnerEdge implements Edge<E> {
     	private E element;
     	private Position<Edge<E>> pos;
     	private Vertex<V>[] endpoints;

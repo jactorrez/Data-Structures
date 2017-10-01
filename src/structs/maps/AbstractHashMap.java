@@ -10,11 +10,12 @@ public abstract class AbstractHashMap<K,V> extends AbstractMap<K,V>{
 	protected int capacity;			// length of the table
 	protected int prime;			// prime factor
 	private long scale, shift;		// the shift and scaling factors 
+	protected final double LOAD_FACTOR = 0.75;
 	
 	// constructors
 	public AbstractHashMap(int cap, int p){
 		prime = p;
-		capacity = cap;
+		capacity = (int) Math.floor(cap / LOAD_FACTOR);
 		Random rand = new Random();
 		scale = rand.nextInt(prime-1) + 1;
 		shift = rand.nextInt(prime);
@@ -44,7 +45,7 @@ public abstract class AbstractHashMap<K,V> extends AbstractMap<K,V>{
 	
 	public V put(K key, V value){
 		V answer = bucketPut(hashValue(key), key, value);
-		if(n > (capacity / 2))				// keep load factor <= 0.5
+		if(n > (capacity * LOAD_FACTOR))	// keep load factor <= 0.75
 			resize(2 * (capacity - 1));		// or resize
 		return answer;
 	}

@@ -31,10 +31,17 @@ public class ChainHashMap<K,V> extends AbstractHashMap<K,V>{
 	/* Returns value associated with given key in bucket with hash value h, or else null */
 	protected V bucketGet(int h, K key){
 		EntryLinkedList<K,V> bucket = table[h];
+	
 		if(bucket == null){
 			return null;
 		}
-	
+		V test =  bucket.find(key).getValue();
+		
+		if(test == null){
+			System.out.println("it's null, no clue why this is working");
+		} else{
+			System.out.println("Value is "  + test);
+		}
 		return bucket.find(key).getValue();
 	}
 	
